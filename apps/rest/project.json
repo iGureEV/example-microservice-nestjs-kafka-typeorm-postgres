@@ -27,7 +27,8 @@
       "executor": "@nx/js:node",
       "defaultConfiguration": "development",
       "options": {
-        "buildTarget": "rest:build"
+        "buildTarget": "rest:build",
+        "port": 9231
       },
       "configurations": {
         "development": {
