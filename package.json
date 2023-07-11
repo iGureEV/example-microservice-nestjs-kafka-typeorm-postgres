@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "all:watch": "nx run-many -t serve --all --maxParallel=100"
+    "all:watch": "nx run-many -t serve --all --maxParallel=100",
+    "docker:down": "docker-compose -p task2db -f ./docker-compose.yaml down",
+    "docker:up": "docker-compose -p task2db -f ./docker-compose.yaml up -d"
   },
   "private": true,
   "dependencies": {
