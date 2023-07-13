@@ -28,7 +28,7 @@
       "defaultConfiguration": "development",
       "options": {
         "buildTarget": "rest:build",
-        "port": 9231
+        "port": 9230
       },
       "configurations": {
         "development": {

@@ -1,7 +1,7 @@
 {
-  "name": "app1",
+  "name": "consumer",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/app1/src",
+  "sourceRoot": "apps/consumer/src",
   "projectType": "application",
   "targets": {
     "build": {
@@ -11,12 +11,12 @@
       "options": {
         "target": "node",
         "compiler": "tsc",
-        "outputPath": "dist/apps/app1",
-        "main": "apps/app1/src/main.ts",
-        "tsConfig": "apps/app1/tsconfig.app.json",
-        "assets": ["apps/app1/src/assets"],
+        "outputPath": "dist/apps/consumer",
+        "main": "apps/consumer/src/main.ts",
+        "tsConfig": "apps/consumer/tsconfig.app.json",
+        "assets": ["apps/consumer/src/assets"],
         "isolatedConfig": true,
-        "webpackConfig": "apps/app1/webpack.config.js"
+        "webpackConfig": "apps/consumer/webpack.config.js"
       },
       "configurations": {
         "development": {},
@@ -27,15 +27,15 @@
       "executor": "@nx/js:node",
       "defaultConfiguration": "development",
       "options": {
-        "buildTarget": "app1:build",
-        "port": 9230
+        "buildTarget": "consumer:build",
+        "port": 9232
       },
       "configurations": {
         "development": {
-          "buildTarget": "app1:build:development"
+          "buildTarget": "consumer:build:development"
         },
         "production": {
-          "buildTarget": "app1:build:production"
+          "buildTarget": "consumer:build:production"
         }
       }
     },
@@ -43,14 +43,14 @@
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["apps/app1/**/*.ts"]
+        "lintFilePatterns": ["apps/consumer/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "apps/app1/jest.config.ts",
+        "jestConfig": "apps/consumer/jest.config.ts",
         "passWithNoTests": true
       },
       "configurations": {

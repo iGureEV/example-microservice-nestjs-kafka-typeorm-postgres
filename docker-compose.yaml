@@ -47,25 +47,27 @@ services:
           memory: 1G
 
   zookeeper:
+    container_name: zookeeper-task2db
     image: confluentinc/cp-zookeeper:latest
     restart: unless-stopped
-    container_name: zookeeper-task2db
+    ports:
+      - 22181:2181
     volumes:
-      - ../volumes/zookeeper/.data:/var/lib/zookeeper/data
-      - ../volumes/zookeeper/.log:/var/lib/zookeeper/log
+      - ./volumes/zookeeper/.data:/var/lib/zookeeper/data
+      - ./volumes/zookeeper/.log:/var/lib/zookeeper/log
     environment:
       ZOOKEEPER_CLIENT_PORT: 3185
 
   kafka:
-    image: confluentinc/cp-kafka:latest
-    restart: unless-stopped
     container_name: kafka-task2db
-    ports:
-      - 9095:9095
+    image: confluentinc/cp-kafka:latest
     depends_on:
       - zookeeper
+    ports:
+      - 9095:9095
+    restart: unless-stopped
     volumes:
-      - ../volumes/kafka/.data:/var/lib/kafka/data
+      - ./volumes/kafka/.data:/var/lib/kafka/data
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: "zookeeper:3185"
@@ -75,12 +77,13 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 
   kafka-ui:
-    image: provectuslabs/kafka-ui:latest
-    restart: unless-stopped
     container_name: kafka-ui-task2db
+    image: provectuslabs/kafka-ui:latest
     ports:
       - 3085:8080
+    restart: unless-stopped
     environment:
       DYNAMIC_CONFIG_ENABLED: 'true'
+      KAFKA_CLUSTERS_0_ZOOKEEPER: zookeeper:2181
       KAFKA_CLUSTERS_0_NAME: dev_cluster1
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: "kafka:9092"

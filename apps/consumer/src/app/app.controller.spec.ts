@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
+import { genClientKafka } from '@test2/shared';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
@@ -8,6 +9,9 @@ describe('AppController', () => {
 
   beforeAll(async () => {
     app = await Test.createTestingModule({
+      imports: [
+        genClientKafka('service.producer', 'service.consumer'),
+      ],
       controllers: [AppController],
       providers: [AppService],
     }).compile();

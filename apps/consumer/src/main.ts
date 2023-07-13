@@ -1,15 +1,9 @@
-/**
- * This is not a production server yet!
- * This is only a minimal backend to get started.
- */
-
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-
-import { AppModule } from './app/app.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 
-/** Kafka микросервис (консюмер и продьюсер) */
+import { AppModule } from './app/app.module';
+
 async function bootstrap() {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(AppModule, {
     transport: Transport.KAFKA,
@@ -24,10 +18,10 @@ async function bootstrap() {
       }
     }
   });
+
   await app.listen();
-  Logger.log(
-    `🚀 Kafka microservice is running!`,
-  );
+
+  Logger.log( `🚀 Запущен Kafka comsumer для обрабатывающий команд!` );
 }
 
 bootstrap();

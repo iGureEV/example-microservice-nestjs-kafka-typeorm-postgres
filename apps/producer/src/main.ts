@@ -1,21 +1,16 @@
-/**
- * This is not a production server yet!
- * This is only a minimal backend to get started.
- */
-
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-
-import { AppModule } from './app/app.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 
-/**
- * Гибридное приложение (MS + Kafka)
- */
+import { AppModule } from './app/app.module';
+
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  // подключаем микросервис
   const port_ms = Number(process.env.PORT_MS) || 3011;
+  const globalPrefix = 'rest';
+
+  const app = await NestFactory.create(AppModule);
+  app.setGlobalPrefix(globalPrefix);
+
   app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.TCP,
     options: {
@@ -23,24 +18,24 @@ async function bootstrap() {
       port: port_ms,
     }
   });
-  // TODO: добавить микросервис кафки
+
   app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.KAFKA,
     options: {
       client: {
         brokers: ['localhost:9095'],
-        clientId: 'app1.producer',
+        clientId: 'hybrid.producer',
       },
       consumer: {
-        groupId: 'app1.consumer',
+        groupId: 'hybrid.consumer',
         allowAutoTopicCreation: true,
       }
     }
   });
+
   await app.startAllMicroservices();
-  Logger.log(
-    `🚀 Hybrid app is running with TCP microservice on port: ${port_ms}`,
-  );
+
+  Logger.log( `🚀 Запущен Kafka producer для отправки комманд полученных из микросервисов по TCP на порту: ${port_ms}` );
 }
 
 bootstrap();

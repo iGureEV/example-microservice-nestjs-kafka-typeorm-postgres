@@ -1,13 +1,12 @@
 import { Module } from '@nestjs/common';
 
-import { genClientKafka, genClientTCP } from '@test2/shared';
+import { genClientKafka } from '@test2/shared';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
 @Module({
   imports: [
-    genClientTCP(),
-    genClientKafka('rest.producer', 'rest.consumer'),
+    genClientKafka('service.producer', 'service.consumer'),
   ],
   controllers: [AppController],
   providers: [AppService],
